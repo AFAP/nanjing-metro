@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f5f7f3"><meta name="description" content="可自动沿线路巡航，也能自由旋转的南京地铁三维网页：拖动进度、逐站查海拔、查看公开轨道标签和工程资料。">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%23171717'/%3E%3Cpath d='M10 29V11l10 12 10-12v18' fill='none' stroke='%23fff' stroke-width='4' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <title>南京地铁 · 3D 沿线漫游</title>
+  <link rel="stylesheet" href="terrain.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.min.js"}}</script>
+  <script type="module" src="terrain.js"></script>
+  <link rel="stylesheet" href="site-shell.css">
+  <script src="site-shell.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="南京地铁首页"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M10 29V11l10 12 10-12v18"/></svg></span><span>南京地铁<small>NANJING METRO</small></span></a>
+    <nav aria-label="主导航"><a href="./#network" data-section="network">线网地图</a><a href="./#station-info" data-section="station-info">站点 · 厕所</a><a href="terrain.html" data-section="terrain">3D · 巡航</a><a href="./#city" data-section="city">地铁里的南京</a><a href="./#guide" data-section="guide">乘车指南</a></nav>
+    <label class="style-picker"><span class="sr-only">切换视觉风格</span><select id="site-style" aria-label="切换视觉风格"><option value="city">城市浅绿</option><option value="paper">纸墨风格</option></select></label>
+  </header>
+  <a class="skip-link" href="#main">跳到内容</a>
+  <main id="main">
+    <div class="atlas-heading"><div><p class="eyebrow">3D / LINE EXPLORER</p><h1>南京，沿轨道看山水<span>。</span></h1></div><p>选择线路自动巡航，也可以随时接手。<br>地表高程与轨面资料分别标明。</p></div>
+    <div class="atlas-toolbar"><div id="terrain-lines" class="line-picker" role="group" aria-label="选择地铁线路"></div><button id="all-network" class="text-button" type="button">全网视角 ↗</button></div>
+    <div class="atlas-workspace">
+      <section class="map-card" aria-label="立体线网地图">
+        <div class="cruise-toolbar" aria-label="线路巡航控制">
+          <label class="cruise-line-label"><span class="sr-only">巡航线路</span><select id="cruise-line" aria-label="巡航线路"></select></label>
+          <button id="cruise-play" class="play-button" type="button" aria-label="开始线路巡航">▶ 开始巡航</button>
+          <div class="station-step"><button id="cruise-prev" type="button" aria-label="上一站" title="上一站">|‹</button><button id="cruise-next" type="button" aria-label="下一站" title="下一站">›|</button></div>
+          <button id="cruise-reverse" type="button" aria-label="切换巡航方向" title="反向巡航">⇄ <span>反向</span></button>
+          <label class="speed-label"><span>节奏</span><select id="cruise-speed" aria-label="巡航演示速度"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></label>
+          <label class="follow-label"><input id="cruise-follow" type="checkbox" checked>跟随镜头</label>
+        </div>
+        <div id="terrain-view" class="terrain-view">
+          <div class="map-topline"><span class="map-mode"><i></i> 地表投影 · 轨面高程待补</span><span id="view-name">主城视角</span></div>
+          <div class="cruise-location"><span class="hud-kicker">沿线位置 · 靠近</span><strong id="cruise-current">新街口</strong><span id="cruise-next-name">选择线路，开始漫游</span><div><b id="cruise-ground">地表约 23 m</b><span id="cruise-position"></span></div><small id="cruise-structure" title="公共轨道标签；layer 是相对上下层级，不是米数，也不是官方站内楼层。"></small></div>
+          <div id="terrain-labels" class="terrain-labels"></div>
+          <div class="map-float-controls"><button type="button" id="view-oblique" aria-label="立体视角" title="立体视角">◈</button><button type="button" id="view-top" aria-label="俯视线网" title="俯视线网">⊙</button><button type="button" id="view-clean" aria-label="纯净线网模式" aria-pressed="false" title="纯净线网：隐藏地形背景">◌</button><button type="button" id="view-reset" aria-label="复位主城视角" title="复位主城视角">↺</button></div>
+          <div class="map-compass"><span id="north-arrow">↑</span>N</div>
+          <div class="cruise-scrubber"><div><span id="cruise-state" aria-live="polite">选择线路，开始漫游</span><span id="cruise-distance"></span></div><input id="cruise-progress" type="range" min="0" max="1000" value="0" aria-label="线路巡航进度"><div class="cruise-route-meta"><span id="cruise-direction"></span><span id="cruise-coverage"></span></div></div>
+          <div id="map-loading" class="map-loading" role="status">正在载入地形与巡航路线…</div>
+        </div>
+        <div class="map-foot"><span>拖动旋转 · 右键平移 · 滚轮 / 双指缩放</span><span id="map-selection">选择一座站，查看海拔</span></div>
+        <div class="terrain-adjust"><label>高差 <input id="vertical-scale" type="range" min="1" max="40" value="8" aria-label="高差放大"><output id="vertical-scale-value">8 ×</output></label><label>地形 <input id="terrain-opacity" type="range" min="0" max="100" value="30" aria-label="地形显示强度"></label><label class="depth-toggle"><input id="show-depth" type="checkbox">结构深度</label><span>视觉放大 · 海拔估值不变</span></div>
+        <div id="terrain-profile" class="terrain-profile"></div>
+      </section>
+      <aside class="atlas-panel">
+        <form id="terrain-search-form" class="station-search"><label for="terrain-search">定位车站</label><div><input id="terrain-search" list="terrain-station-list" placeholder="例如 新街口、莫愁湖" autocomplete="off"><button type="submit" aria-label="定位所选车站">↗</button></div><datalist id="terrain-station-list"></datalist><output id="terrain-search-status" aria-live="polite"></output></form>
+        <div id="terrain-station-detail" class="terrain-station-detail" aria-live="polite"></div>
+      </aside>
+    </div>
+    <div class="atlas-bottom"><div><strong id="terrain-data-count">正在整理地理资料</strong><p>彩色线路按地表投影显示，用于辨认走向；本版尚未取得完整轨面绝对标高，缺失值保留为空。<br>结构深度杆为相对地表示意，不代表站台或轨面深度；疑似异常地形标灰。</p></div><div class="altitude-legend"><span>地表海拔</span><i></i><div><span>0 m</span><span>300 m</span><span>600 m+</span></div></div></div>
+    <details class="source-notes"><summary>数据来源与精度说明 <span>采集日期、坐标及高程基准 ↗</span></summary><div id="terrain-source-notes"></div><p>线路与坐标：© OpenStreetMap contributors，ODbL；地形：Mapzen Terrain Tiles。Global GMTED2010 / SRTM terrain data courtesy of the U.S. Geological Survey。高程为栅格采样估值，不能作为工程测量或站内楼层高度。</p><a href="data/metro-3d.json" download="南京地铁-三维地理资料.json">下载结构化三维资料 JSON ↗</a></details>
+  </main>
+  <footer>南京地铁城市漫游指南 · 独立网站 <a href="./#station-info">查车站资料与厕所 ↗</a></footer>
+</body>
+</html>

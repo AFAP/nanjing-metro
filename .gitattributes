@@ -1,0 +1,2 @@
+# Preserve byte hashes and accept CRLF in the public datasets.
+data/*.json -text whitespace=cr-at-eol

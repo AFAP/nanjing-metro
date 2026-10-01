@@ -1,0 +1,102 @@
+:root {
+  --bg: #f7f8f7;
+  --ink: #18251e;
+  --muted: #647168;
+  --border: #dce3dd;
+  --green: #177456;
+  --surface: #ffffff;
+  --soft: #f1f5ed;
+  --soft-hover: #e9f0e5;
+  --nav-accent: #177456;
+  --focus: #177456;
+  --card-radius: 10px;
+}
+html[data-style="paper"] {
+  --bg: #faf9f6;
+  --ink: #181816;
+  --muted: #65635c;
+  --border: #e0ded7;
+  --green: #197b73;
+  --surface: #fffefa;
+  --soft: #f4f1e8;
+  --soft-hover: #eeeadf;
+  --nav-accent: #d2a52b;
+  --focus: #197b73;
+  --card-radius: 4px;
+}
+body { background: var(--bg); color: var(--ink); }
+html { scroll-padding-top: 106px; }
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: 78px;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0 clamp(20px, 4vw, 56px);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.brand { display: flex; align-items: center; gap: 11px; flex-shrink: 0; font-size: 18px; font-weight: 700; letter-spacing: .05em; color: var(--ink); }
+.brand small { display: block; font-size: 8px; font-weight: 500; letter-spacing: .16em; margin-top: 4px; }
+.brand-mark { display: block; width: 35px; height: 35px; border-radius: 7px; background: var(--ink); }
+.brand-mark svg { width: 100%; height: 100%; fill: none; stroke: white; stroke-width: 3.7; stroke-linejoin: round; }
+.site-header nav { display: flex; align-items: center; gap: clamp(16px, 2vw, 30px); font-size: 13px; color: var(--muted); }
+.site-header nav a { display: block !important; position: relative; padding: 12px 0; white-space: nowrap; }
+.site-header nav a:hover, .site-header nav a.nav-active { color: var(--ink); }
+.site-header nav a.nav-active::before { content: ""; position: absolute; width: 5px; height: 5px; border-radius: 50%; left: -10px; top: 19px; background: var(--nav-accent); }
+.style-picker { flex-shrink: 0; }
+.style-picker select { appearance: auto; min-height: 36px; padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--ink); font: inherit; font-size: 12px; cursor: pointer; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+.skip-link { position: fixed; top: -70px; left: 20px; z-index: 50; padding: 13px; background: var(--surface); color: var(--ink); }
+.skip-link:focus { top: 12px; }
+:is(button, a, select, input, summary, [tabindex]):focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+:is(.map-shell, .map-card, .station-browser, .atlas-panel) { border-color: var(--border); border-radius: var(--card-radius); box-shadow: none; }
+:is(.map-shell, .map-toolbar, .line-panel, .map-card, .atlas-panel, .cruise-toolbar, .station-browser, .station-result.selected, .cruise-location, .cruise-scrubber, .map-foot, .map-float-controls button, .map-controls) { background: var(--surface); }
+:is(.station-tools select, .station-search-label, .station-search>div, .station-search input, .cruise-toolbar select, .cruise-toolbar button:not(.play-button), .line-picker button[aria-pressed="true"]) { background: var(--surface); color: var(--ink); border-color: var(--border); }
+:is(.station-results-panel, .toilet-location, .elevation-fact, .terrain-adjust, .terrain-profile, .three-map-link, .station-result:hover, .toilet-heading>svg, .manual-location) { background: var(--soft); }
+:is(.station-result-top strong, .station-detail-header h3, .toilet-location>p, .terrain-station-detail h2, .cruise-location strong, .elevation-fact strong, .terrain-profile h3) { color: var(--ink); }
+:is(.section-description, .hero-aside p, .map-foot, .terrain-profile p, .detail-kicker, .hud-kicker, .coordinate-fact, .rail-fact, .station-data-summary span, .station-data-summary>p, .toilet-heading p, .location-meta, .location-source, .location-source>a, .station-collected) { color: var(--muted); }
+:is(.play-button, .primary-link, .save-review) { background: var(--ink); color: white; }
+.terrain-label { background: var(--surface); color: var(--ink); }
+.terrain-label.active { border-color: var(--green); color: var(--ink); }
+.atlas-heading h1, .atlas-heading h1 span { color: var(--ink); }
+html[data-style="paper"] .city-word { color: var(--ink); }
+html[data-style="paper"] :is(.eyebrow, .hero-coordinate, .feature-index, .panel-kicker, .detail-kicker, .hud-kicker) { font-family: ui-monospace, "Cascadia Code", monospace; letter-spacing: .12em; }
+html[data-style="paper"] :is(.primary-link, .play-button) { box-shadow: inset 0 -2px 0 #d2a52b; border-radius: 4px; }
+html[data-style="paper"] .elevation-fact { border-left: 2px solid #d2a52b; border-radius: 2px; }
+html[data-style="paper"] :is(.map-viewport, .terrain-view) { background-color: #f7f5f0; }
+html[data-style="paper"] .map-watermark { color: var(--ink); }
+html[data-style="paper"] .station-result.selected { border-color: #c8b16d; }
+.station-data-summary { gap: clamp(24px, 4vw, 52px); }
+.station-data-summary strong { font-variant-numeric: tabular-nums; }
+.location-source { font-size: 11px; }
+.atlas-heading { padding-top: 24px; }
+@media (max-width: 960px) {
+  .site-header { display: grid; grid-template-columns: 1fr auto; gap: 0 18px; height: auto; padding: 13px 24px 0; }
+  .site-header nav { grid-row: 2; grid-column: 1 / -1; justify-content: center; gap: 26px; }
+  .site-header nav a { padding: 14px 0; }
+  .site-header nav a.nav-active::before { top: 21px; }
+  html { scroll-padding-top: 130px; }
+}
+@media (max-width: 560px) {
+  .site-header { padding: 11px 15px 0; }
+  .brand { font-size: 16px; gap: 9px; }
+  .brand-mark { width: 31px; height: 31px; }
+  .brand small { font-size: 7px; }
+  .site-header nav { font-size: 11px; gap: 0; justify-content: space-between; }
+  .site-header nav a { padding: 15px 0 13px; }
+  .site-header nav a.nav-active::before { top: auto; bottom: 7px; left: 50%; width: 12px; height: 2px; border-radius: 0; transform: translateX(-50%); }
+  .style-picker select { font-size: 11px; padding: 6px 7px; min-height: 33px; }
+  .station-section { scroll-margin-top: 124px; }
+  .station-detail { scroll-margin-top: 126px; }
+  .atlas-heading { padding-top: 21px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+html[data-style="paper"] .cruise-toolbar .play-button { background: var(--ink); color: white; }

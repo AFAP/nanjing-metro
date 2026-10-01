@@ -1,0 +1,36 @@
+# Credentials and local settings
+.env
+.env.*
+*.pem
+*.key
+.credentials.yaml
+.openai/
+.codex/
+.agents/
+.aws/
+# Generated files, local records and collection caches
+dist/
+build/
+release/
+.sites-runtime/
+data/manual-reviews.json*
+data/sources/
+data/official-articles.json
+data/official-roster.json
+data/map-toilets.json
+*.log
+*.tmp
+*.bak
+*.tar.gz
+*.zip
+reference.html
+# Dependencies, editors and system files
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+.pnpm-store/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
