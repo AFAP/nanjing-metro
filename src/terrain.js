@@ -224,4 +224,4 @@ async function main(){
   renderer.domElement.addEventListener('keydown',e=>{if(['+','=','-','ArrowLeft','ArrowRight'].includes(e.key))cruise.pause('键盘观察 · 巡航已暂停');if(['+','=','-'].includes(e.key)){e.preventDefault();camera.zoom=THREE.MathUtils.clamp(camera.zoom*(e.key==='-'?.8:1.25),.22,25);camera.updateProjectionMatrix();requestRender();}if(e.key==='0'){e.preventDefault();$('#view-reset').click();}if(['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();const offset=camera.position.clone().sub(controls.target);offset.applyAxisAngle(new THREE.Vector3(0,1,0),e.key==='ArrowLeft'?.12:-.12);camera.position.copy(controls.target).add(offset);controls.update();requestRender();}});
   new ResizeObserver(resize).observe(view);requestRender();
 }
-main().catch(error=>{console.error(error);$('#map-loading').innerHTML=`<span>三维图暂时无法载入：${escape(error.message)}</span><a href="/#network">查看平面线网和站点资料 ↗</a>`;});
+main().catch(error=>{console.error(error);$('#map-loading').innerHTML=`<span>三维图暂时无法载入：${escape(error.message)}</span><a href="./#network">查看平面线网和站点资料 ↗</a>`;});

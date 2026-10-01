@@ -97,7 +97,7 @@
         mapped.stations = names.join('|');
       }
       if (typeof renderPanel === 'function' && typeof selected !== 'undefined') renderPanel(selected);
-      try { const response = await fetch('/api/reviews'); if (response.ok) { const result = await response.json(); reviews=result.reviews; localReviews=true; $('#download-station-data').href='/api/stations/export'; } } catch {}
+      if (['localhost','127.0.0.1','[::1]'].includes(location.hostname)) try { const response = await fetch('/api/reviews'); if (response.ok) { const result = await response.json(); reviews=result.reviews; localReviews=true; $('#download-station-data').href='/api/stations/export'; } } catch {}
       $('#station-line-filter').innerHTML = '<option value="all">全部线路</option>'+data.lines.map(l => `<option value="${l.id}">${html(l.name)}</option>`).join('');
       const requested = new URLSearchParams(location.search).get('station');
       activeId = (data.stations.find(s => normalize(s.name) === normalize(requested || '新街口')) || data.stations[0]).id; renderDetail(); renderResults();
