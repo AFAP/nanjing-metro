@@ -7,6 +7,7 @@
   <title>南京地铁 · 3D 沿线漫游</title>
   <link rel="stylesheet" href="terrain.css">
   <script type="importmap">{"imports":{"three":"./vendor/three.module.min.js"}}</script>
+  <script src="line-colors.js"></script>
   <script type="module" src="terrain.js"></script>
   <link rel="stylesheet" href="site-shell.css">
   <script src="site-shell.js"></script>
@@ -14,12 +15,12 @@
 <body>
   <header class="site-header">
     <a class="brand" href="./" aria-label="南京地铁首页"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M10 29V11l10 12 10-12v18"/></svg></span><span>南京地铁<small>NANJING METRO</small></span></a>
-    <nav aria-label="主导航"><a href="./#network" data-section="network">线网地图</a><a href="./#station-info" data-section="station-info">站点 · 厕所</a><a href="terrain.html" data-section="terrain">3D · 巡航</a><a href="./#city" data-section="city">地铁里的南京</a><a href="./#guide" data-section="guide">乘车指南</a></nav>
+    <nav aria-label="主导航"><a href="./#network" data-section="network">线网地图</a><a href="./#station-info" data-section="station-info">站点 · 厕所</a><a href="exits.html" data-section="exits">出站即达</a><a href="./#city" data-section="city">地铁里的南京</a><a href="transfer.html" data-section="transfer">换乘实验室</a><a href="quiz.html" data-section="quiz">线路人格</a><a href="records.html" data-section="records">线网之最</a><a href="terrain.html" data-section="terrain">3D · 巡航</a></nav>
     <label class="style-picker"><span class="sr-only">切换视觉风格</span><select id="site-style" aria-label="切换视觉风格"><option value="city">城市浅绿</option><option value="paper">纸墨风格</option></select></label>
   </header>
   <a class="skip-link" href="#main">跳到内容</a>
   <main id="main">
-    <div class="atlas-heading"><div><p class="eyebrow">3D / LINE EXPLORER</p><h1>南京，沿轨道看山水<span>。</span></h1></div><p>选择线路自动巡航，也可以随时接手。<br>地表高程与轨面资料分别标明。</p></div>
+    <div class="atlas-heading"><div><h1>南京，沿轨道看山水<span>。</span></h1></div><p>选择线路自动巡航，也可以随时接手。<br>地表高程与轨面资料分别标明。</p></div>
     <div class="atlas-toolbar"><div id="terrain-lines" class="line-picker" role="group" aria-label="选择地铁线路"></div><button id="all-network" class="text-button" type="button">全网视角 ↗</button></div>
     <div class="atlas-workspace">
       <section class="map-card" aria-label="立体线网地图">

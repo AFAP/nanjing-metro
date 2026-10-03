@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f8f7">
+  <meta name="description" content="南京地铁线网之最：最多线路交汇的车站、换乘站最多的线路、最长与最短的站名、站名里最常出现的字，全部按官方站序统计。">
+  <title>线网之最 · 南京地铁</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%23171717'/%3E%3Cpath d='M10 29V11l10 12 10-12v18' fill='none' stroke='%23fff' stroke-width='4' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="site-shell.css">
+  <link rel="stylesheet" href="explore.css">
+  <script src="site-shell.js"></script>
+  <script src="line-colors.js"></script>
+  <script defer src="network-graph.js"></script>
+  <script defer src="records.js"></script>
+</head>
+<body class="ex">
+  <a class="skip-link" href="#main">跳到内容</a>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="南京地铁首页"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M10 29V11l10 12 10-12v18"/></svg></span><span>南京地铁<small>NANJING METRO</small></span></a>
+    <nav aria-label="主导航"><a href="./#network" data-section="network">线网地图</a><a href="./#station-info" data-section="station-info">站点 · 厕所</a><a href="exits.html" data-section="exits">出站即达</a><a href="./#city" data-section="city">地铁里的南京</a><a href="transfer.html" data-section="transfer">换乘实验室</a><a href="quiz.html" data-section="quiz">线路人格</a><a href="records.html" data-section="records">线网之最</a><a href="terrain.html" data-section="terrain">3D · 巡航</a></nav>
+    <label class="style-picker"><span class="sr-only">切换视觉风格</span><select id="site-style" aria-label="切换视觉风格"><option value="city">城市浅绿</option><option value="paper">纸墨风格</option></select></label>
+  </header>
+
+  <main id="main" class="ex-main">
+    <header class="ex-head">
+      <h1>线网之最<span class="dot">。</span></h1>
+      <p class="ex-lede">哪些站最忙、哪条线换乘最多、站名里最常出现的是哪个字。下面每一个数字都是从官方站序里数出来的。</p>
+    </header>
+
+    <section class="ex-section">
+      <div class="records-lead">
+        <div class="prose" id="records-prose"><p>正在统计…</p></div>
+        <div class="figures" id="records-figures"></div>
+      </div>
+    </section>
+
+    <section class="ex-section" aria-labelledby="busy-title">
+      <h2 id="busy-title">换乘最忙的地方</h2>
+      <p id="busy-intro"></p>
+      <div class="records-grid">
+        <div class="records-block">
+          <h3>交汇线路最多的车站</h3>
+          <table class="ex-table">
+            <caption>站名可打开首页的该站资料与厕所提示。</caption>
+            <thead><tr><th scope="col">车站</th><th scope="col">经过线路</th><th scope="col" class="num">线路数</th></tr></thead>
+            <tbody id="busy-rows"></tbody>
+          </table>
+        </div>
+        <div class="records-block">
+          <h3>换乘站最多的线路</h3>
+          <table class="ex-table">
+            <caption>线路上的换乘站数量，前 8 条。</caption>
+            <thead><tr><th scope="col" class="rank">#</th><th scope="col">线路</th><th scope="col" class="num">换乘站</th></tr></thead>
+            <tbody id="line-hub-rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="ex-section" aria-labelledby="name-title">
+      <h2 id="name-title">站名里的南京</h2>
+      <p id="name-intro"></p>
+      <div class="records-grid">
+        <div class="records-block">
+          <h3>最长的几个站名</h3>
+          <ul class="name-list" id="longest-names"></ul>
+        </div>
+        <div class="records-block">
+          <h3>最短的几个站名</h3>
+          <ul class="name-list" id="shortest-names"></ul>
+        </div>
+        <div class="records-block">
+          <h3>站名里最常出现的字</h3>
+          <p>同一站名里重复出现的字只算一次。</p>
+          <ul class="bar-list" id="common-chars"></ul>
+        </div>
+        <div class="records-block">
+          <h3>带这些字的站有多少</h3>
+          <p>按站名里是否含有该字统计，同一站可计入多个字。</p>
+          <ul class="fact-list" id="suffix-facts"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="ex-section" aria-labelledby="scale-title">
+      <h2 id="scale-title">每条线有多长</h2>
+      <p>按官方目录的车站数排列。这里数的是线路上的车站数量，换乘站在每条线上各算一次，所以合计会大于车站总数。</p>
+      <table class="ex-table">
+        <thead><tr><th scope="col" class="rank">#</th><th scope="col">线路</th><th scope="col" class="optional">起讫站</th><th scope="col" class="num">车站数</th></tr></thead>
+        <tbody id="line-rows"></tbody>
+      </table>
+    </section>
+
+    <footer class="ex-footer">
+      <nav class="ex-foot-links" aria-label="相关页面">
+        <a href="transfer.html">去换乘实验室规划一程 →</a>
+        <a href="quiz.html">测一测你是哪条线 →</a>
+        <a href="./#network">回到线网地图 →</a>
+      </nav>
+      <p class="ex-note" id="records-scope"></p>
+    </footer>
+  </main>
+</body>
+</html>

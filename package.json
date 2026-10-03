@@ -9,6 +9,6 @@
   "scripts": {
     "start": "node server.mjs",
     "build": "node scripts/build.mjs",
-    "test": "node scripts/test-cruise-path.mjs && node scripts/test-local-reviews.mjs"
+    "test": "node scripts/test-network.mjs && node scripts/test-exits.mjs && node scripts/test-quiz.mjs && node scripts/test-cruise-path.mjs && node scripts/test-local-reviews.mjs"
   }
 }

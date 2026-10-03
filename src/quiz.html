@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f8f7">
+  <meta name="description" content="南京地铁线路人格测试：六个问题，从 1 号线到 S9 的 15 条线路里，找出最像你的那一条，并给出沿线可以去看的站。">
+  <title>你是哪条线 · 南京地铁</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%23171717'/%3E%3Cpath d='M10 29V11l10 12 10-12v18' fill='none' stroke='%23fff' stroke-width='4' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="site-shell.css">
+  <link rel="stylesheet" href="explore.css">
+  <script src="site-shell.js"></script>
+  <script src="line-colors.js"></script>
+  <script src="quiz-data.js"></script>
+  <script defer src="network-graph.js"></script>
+  <script defer src="quiz.js"></script>
+</head>
+<body class="ex">
+  <a class="skip-link" href="#main">跳到内容</a>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="南京地铁首页"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M10 29V11l10 12 10-12v18"/></svg></span><span>南京地铁<small>NANJING METRO</small></span></a>
+    <nav aria-label="主导航"><a href="./#network" data-section="network">线网地图</a><a href="./#station-info" data-section="station-info">站点 · 厕所</a><a href="exits.html" data-section="exits">出站即达</a><a href="./#city" data-section="city">地铁里的南京</a><a href="transfer.html" data-section="transfer">换乘实验室</a><a href="quiz.html" data-section="quiz">线路人格</a><a href="records.html" data-section="records">线网之最</a><a href="terrain.html" data-section="terrain">3D · 巡航</a></nav>
+    <label class="style-picker"><span class="sr-only">切换视觉风格</span><select id="site-style" aria-label="切换视觉风格"><option value="city">城市浅绿</option><option value="paper">纸墨风格</option></select></label>
+  </header>
+
+  <main id="main" class="ex-main">
+    <header class="ex-head">
+      <h1>你是哪条线<span class="dot">。</span></h1>
+      <p class="ex-lede">六个问题，从南京地铁的 15 条线路里，找出最像你的那一条，以及沿线可以去哪儿。</p>
+    </header>
+
+    <section class="ex-section">
+      <div class="quiz" id="quiz">
+        <div class="quiz-progress">
+          <span id="quiz-step">正在载入…</span>
+          <span class="track"><span class="fill" id="quiz-fill"></span></span>
+        </div>
+        <form id="quiz-form">
+          <fieldset class="quiz-question">
+            <legend id="quiz-question">正在载入线网数据…</legend>
+            <p class="quiz-hint" id="quiz-hint">选一个最接近的就行，不用想太久。</p>
+            <div class="quiz-options" id="quiz-options"></div>
+          </fieldset>
+        </form>
+        <div class="quiz-nav">
+          <button class="ex-btn" id="quiz-back" type="button">上一题</button>
+          <button class="ex-btn" id="quiz-restart" type="button">重新开始</button>
+        </div>
+      </div>
+      <div id="quiz-result" aria-live="polite"></div>
+      <p class="planner-error" id="quiz-error" role="status"></p>
+    </section>
+
+    <footer class="ex-footer">
+      <nav class="ex-foot-links" aria-label="相关页面">
+        <a href="transfer.html">去换乘实验室规划一程 →</a>
+        <a href="records.html">看看线网之最 →</a>
+        <a href="./#network">回到线网地图 →</a>
+      </nav>
+      <p class="ex-note">测着玩的结果，不代表任何官方评价。线路资料按公开站序整理，本页是独立城市指南，非南京地铁官方网站。</p>
+    </footer>
+  </main>
+</body>
+</html>

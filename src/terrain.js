@@ -8,7 +8,7 @@ import {CruiseController} from './terrain-cruise.js';
 const $=selector=>document.querySelector(selector);
 const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const normalize=value=>value.replace(/[\s·•・（）()]/g,'').replace(/站$/,'');
-const colors={'1':'#188bc4','2':'#db4651','3':'#4f9d73','4':'#9278b5','5':'#bd9b21','6':'#42b7c6','7':'#599768','10':'#c58d30','S1':'#32a8ad','S2':'#bb5269','S3':'#b67ead','S6':'#c79bb9','S7':'#d892af','S8':'#e98a44','S9':'#dca33b'};
+const colors=globalThis.LINE_COLORS;
 const view=$('#terrain-view');
 let data,stationById,activeStation,activeLine='all',renderer,scene,camera,controls,vertical=8,span=34,frame=0,dirty=true,cruise,cruiseRoutes;
 const terrainGroup=new THREE.Group(),routeObjects=[],markers=[],labels=[],depthObjects=[],terrainMaterials=[];

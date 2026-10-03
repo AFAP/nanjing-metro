@@ -3,7 +3,7 @@
   const $ = s => document.querySelector(s);
   const html = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const normalize = s => s.replace(/[\s·•・]/g, '').replace(/站$/, '');
-  const colors = {'1':'#188bc4','2':'#db4651','3':'#4f9d73','4':'#9278b5','5':'#bd9b21','6':'#42b7c6','7':'#599768','10':'#c58d30','S1':'#32a8ad','S2':'#bb5269','S3':'#b67ead','S6':'#c79bb9','S7':'#d892af','S8':'#e98a44','S9':'#dca33b'};
+  const colors = window.LINE_COLORS;
   const badges = ids => ids.map(id => `<span class="small-badge" style="--line-color:${colors[id] || '#66736a'}">${html(id)}</span>`).join('');
   const date = value => value ? value.slice(0,10) : '页面未注明日期';
   let data, reviews = {}, activeId, localReviews = false;
@@ -38,8 +38,19 @@
     else if (!stations.length) { activeId = null; $('#station-detail').innerHTML = '<div class="station-empty"><p>调整搜索条件后，选择一座车站查看资料。</p></div>'; }
     summary();
   }
-  function renderDetail() {
-    const s = data.stations.find(s => s.id === activeId); if (!s) return;
+  /* The official exit text is messy, so exit-parser.js turns it into rows.
+     When nothing could be parsed we keep showing the raw text only. */
+  function buildExits(s) {
+    const parser = window.MetroExits;
+    if (!parser || !s.nearby.length) return '';
+    const parsed = parser.spots({stations: [s], lines: []});
+    if (!parsed.length) return '';
+    const groups = [...parser.byExit(parsed)].map(([exit, spots]) => `<section class="exit-group"><div class="exit-group-head"><span class="exit-gate">${html(exit)}</span><span class="exit-group-meta">${spots.length} 个地点</span></div><ul class="exit-list">${spots.map(spot => `<li><span class="exit-list-name">${html(spot.name)}</span><span class="exit-list-category">${html(spot.category)}</span><span class="exit-list-distance">${html(parser.formatDistance(spot.distance))}</span></li>`).join('')}</ul></section>`).join('');
+    const link = `<a class="station-exits-more" href="exits.html?station=${encodeURIComponent(s.name)}">看全部出口与地点 ↗</a>`;
+    return `<div class="station-exits"><p class="station-exits-lede">官网记录的出站地点，按出口整理，组内按步行距离排列。</p><div class="exit-groups">${groups}</div>${link}</div>`;
+  }
+
+  function renderDetail() {    const s = data.stations.find(s => s.id === activeId); if (!s) return;
     const review = reviews[s.id] || {};
     const available = s.toilets.availability === 'available';
     const manual = review.toilet_location || review.toilet_availability || review.notes;
@@ -50,7 +61,7 @@
       <details class="station-line-toilets"><summary>各线路站层是否设有厕所</summary><ul>${s.toilets.by_line.map(b => `<li><span>${b.line_id} 号线</span><span>${b.availability === 'available' ? '官方总表列为有厕所' : '官方总表未列设置厕所'}</span></li>`).join('')}</ul><div class="location-source">${sourceLink('official-toilets')}</div></details>
       ${s.toilets.notes.length ? `<div class="station-notes">${s.toilets.notes.map(n => `<p>${html(publicNote(n))}</p>`).join('')}</div>` : ''}
       </section>
-      <details class="station-more"><summary>车站简介与出站周边<span>官方资料</span></summary><div>${s.introduction.map(i => `<p class="station-intro-fact">${html(i.text)}</p><div class="location-source">${sourceLink(i.source_id)}</div>`).join('')}${s.nearby.map(n => `<div class="nearby-fact"><h5>${html(n.category)}</h5><p>${html(n.description)}</p></div>`).join('')}${s.source_ids.filter(id => id.startsWith('exits-')).map(id => `<div class="location-source">${sourceLink(id)}</div>`).join('')}</div></details>
+      <details class="station-more"><summary>车站简介与出站周边<span>官方资料</span></summary><div>${s.introduction.map(i => `<p class="station-intro-fact">${html(i.text)}</p><div class="location-source">${sourceLink(i.source_id)}</div>`).join('')}${buildExits(s)}<details class="station-exits-raw"><summary>官网出站信息原文</summary>${s.nearby.map(n => `<div class="nearby-fact"><h5>${html(n.category)}</h5><p>${html(n.description)}</p></div>`).join('')}</details>${s.source_ids.filter(id => id.startsWith('exits-')).map(id => `<div class="location-source">${sourceLink(id)}</div>`).join('')}</div></details>
       ${editMode && localReviews ? `<details class="station-review"><summary><span>逐站人工核对</span><span>${reviewed(s) ? '已记录' : '补充位置与备注'}</span></summary><form id="station-review-form"><p>核对完成后再勾选。记录会保存在本地项目中，资料更新时也会保留。</p><label>厕所状态补充<select name="toilet_availability"><option value="">沿用收集资料</option><option value="available">有厕所</option><option value="unavailable">未设厕所</option><option value="unknown">待确认</option></select></label><label>实际厕所位置<textarea name="toilet_location" rows="3" maxlength="2000" placeholder="例如：2 号线 B2 站台西端，付费区内；也可注明是否需出站。">${html(review.toilet_location || '')}</textarea></label><label>核对备注 / 补充来源<textarea name="notes" rows="2" maxlength="4000" placeholder="填写现场核对日期、资料链接或仍需确认的事项。">${html(review.notes || '')}</textarea></label><label class="review-checkbox"><input name="human_verified" type="checkbox" ${reviewed(s) ? 'checked' : ''}><span>我已人工核对本车站的厕所资料</span></label><button class="save-review" type="submit" ${localReviews ? '' : 'disabled'}>保存核对记录 <span aria-hidden="true">↗</span></button><output id="review-save-status" aria-live="polite">${localReviews ? '' : '请使用本地启动脚本打开网站，才能保存到项目文件。'}</output></form></details>
       ` : ''}
       <p class="station-collected">收集日期 ${date(s.collected_at)} · ${s.source_ids.length} 个可追溯来源</p>`;

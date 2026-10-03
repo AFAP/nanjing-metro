@@ -7,6 +7,14 @@
 > **Explore the network, find toilets, and follow the lines through Nanjing.**
 > An independent local website with station information and interactive 3D cruising.
 
+## Live site
+
+**https://nanjing.atompower.cn/metro/**
+
+Direct links: [Network map](https://nanjing.atompower.cn/metro/) · [Stations & toilets](https://nanjing.atompower.cn/metro/#station-info) · [Exit guide](https://nanjing.atompower.cn/metro/exits.html) · [Transfer lab](https://nanjing.atompower.cn/metro/transfer.html) · [Line personality](https://nanjing.atompower.cn/metro/quiz.html) · [Network records](https://nanjing.atompower.cn/metro/records.html) · [3D cruise](https://nanjing.atompower.cn/metro/terrain.html)
+
+The site is fully static and can also be self-hosted as described in section 5.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/AFAP/nanjing-metro)](https://github.com/AFAP/nanjing-metro/releases)
 [![Build](https://github.com/AFAP/nanjing-metro/actions/workflows/release.yml/badge.svg)](https://github.com/AFAP/nanjing-metro/actions/workflows/release.yml)
@@ -23,6 +31,10 @@ Public sources → data/ → Local server / static website → Search and cruise
 
 - ✅ Color route map with line highlighting, zoom, and station lookup.
 - ✅ Structured data for 15 lines and 263 stations, retaining toilet sources.
+- ✅ Exit guide: official exit notes turned into a searchable index with exit numbers and walking distances (2,766 places across 180 stations).
+- ✅ Transfer lab: station autocomplete plus fewest-transfer and fewest-stop options, with out-of-station changes flagged.
+- ✅ Line personality: six questions pick the line most like you and list places along it.
+- ✅ Network records: busiest interchange, lines with the most interchange stations, longest and shortest names, all counted from the official directory.
 - ✅ 3D cruising with pause/resume, reverse, speed, scrubbing, and station stepping.
 - ✅ Rotate, pan, and zoom freely; ground profiles follow the selected station.
 - ✅ Shared sticky navigation and persistent City Green / Paper & Ink styles.
@@ -53,9 +65,11 @@ Requires Node.js 22 or newer, with no runtime installation needed. Open `http://
 | Action | Method |
 | --- | --- |
 | Find toilets | Search names or filter by line in “站点 · 厕所” |
+| Find an exit | Search a place name (such as “总统府”) in “出站即达”, or open a station to see where each exit leads |
+| Plan a transfer | Enter two stations in “换乘实验室” for a suggested route |
 | Start cruising | Select a line on the 3D page and click “开始巡航” |
 | Explore manually | Drag to rotate, right-drag to pan, and wheel or pinch to zoom; cruising pauses |
-| Switch style | Use the top style selector; the choice persists across both pages |
+| Switch style | Use the top style selector; the choice persists across pages |
 | Add local information | Open `/?edit=1#station-info`; records remain local |
 
 Generate static files:
@@ -93,7 +107,7 @@ Python collection scripts are optional maintenance tools and require raw caches.
 - [Version history](docs/CHANGELOG.md)
 - [Third-party sources and licenses](NOTICE.md)
 
-The 2D guide keeps an April 2026 snapshot. Station and 3D route data were collected on October 1, 2026. Coordinates are available for 262 stations; Hongshan Xincheng remains unlocated. Heights are ground estimates. Complete absolute rail elevations are unavailable; relative layers are never converted to meters.
+The 2D guide keeps an April 2026 snapshot (14 lines, without Line 6). Station and 3D route data were collected on October 1, 2026: 15 lines, 263 stations, 37 of them interchanges. Coordinates are available for 262 stations; Hongshan Xincheng remains unlocated. Heights are ground estimates. Complete absolute rail elevations are unavailable; relative layers are never converted to meters.
 
 ## 9. License
 

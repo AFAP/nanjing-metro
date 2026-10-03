@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f8f7">
+  <meta name="description" content="南京地铁出站即达：官网出站信息整理成可搜索的清单，写明每个地点离哪个车站最近、从几号口出去、步行多少米。">
+  <title>出站即达 · 南京地铁</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%23171717'/%3E%3Cpath d='M10 29V11l10 12 10-12v18' fill='none' stroke='%23fff' stroke-width='4' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="site-shell.css">
+  <link rel="stylesheet" href="explore.css">
+  <link rel="stylesheet" href="exits.css">
+  <script src="site-shell.js"></script>
+  <script src="line-colors.js"></script>
+  <script defer src="exit-parser.js"></script>
+  <script defer src="exits.js"></script>
+</head>
+<body class="ex">
+  <a class="skip-link" href="#main">跳到内容</a>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="南京地铁首页"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M10 29V11l10 12 10-12v18"/></svg></span><span>南京地铁<small>NANJING METRO</small></span></a>
+    <nav aria-label="主导航"><a href="./#network" data-section="network">线网地图</a><a href="./#station-info" data-section="station-info">站点 · 厕所</a><a href="exits.html" data-section="exits">出站即达</a><a href="./#city" data-section="city">地铁里的南京</a><a href="transfer.html" data-section="transfer">换乘实验室</a><a href="quiz.html" data-section="quiz">线路人格</a><a href="records.html" data-section="records">线网之最</a><a href="terrain.html" data-section="terrain">3D · 巡航</a></nav>
+    <label class="style-picker"><span class="sr-only">切换视觉风格</span><select id="site-style" aria-label="切换视觉风格"><option value="city">城市浅绿</option><option value="paper">纸墨风格</option></select></label>
+  </header>
+
+  <main id="main" class="ex-main">
+    <header class="ex-head">
+      <h1>出站，就是目的地<span class="dot">。</span></h1>
+      <p class="ex-lede">官网的出站信息写着每个出口通向哪儿、要走多少米。这页把它整理成能搜的清单：想去哪儿，先看最近的车站、出口和步数。</p>
+    </header>
+
+    <section class="ex-section" id="find-section" aria-labelledby="find-title">
+      <h2 id="find-title">想去哪儿</h2>
+      <p>输入地点或站名，默认按步行距离从近到远排列。同一地点在多个车站出现时，近的那个排前面。</p>
+
+      <div class="exit-tools">
+        <label class="exit-search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg>
+          <span class="sr-only">搜索地点或车站</span>
+          <input id="exit-search" type="search" list="exit-options" placeholder="例如 夫子庙、总统府、玄武湖、德基广场" autocomplete="off">
+        </label>
+        <datalist id="exit-options"></datalist>
+      </div>
+      <div class="exit-filters" id="exit-filters" role="group" aria-label="按类别筛选"></div>
+
+      <p class="exit-count" id="exit-count" role="status">正在整理出站信息…</p>
+      <table class="ex-table exit-table" id="exit-table">
+        <caption>出口号与步行距离来自南京地铁官网出站信息，自动整理后可能有偏差，请以站内标识为准。</caption>
+        <thead><tr><th scope="col">地点</th><th scope="col">车站</th><th scope="col">出口</th><th scope="col" class="num">步行</th></tr></thead>
+        <tbody id="exit-rows"></tbody>
+      </table>
+      <p class="exit-more" id="exit-more"></p>
+    </section>
+
+    <section class="ex-section" id="station-section" hidden aria-labelledby="station-title">
+      <h2 id="station-title">这一站，从哪个口出去</h2>
+      <p id="station-lede"></p>
+      <div class="exit-groups" id="station-groups"></div>
+      <p class="exit-back"><a href="exits.html">← 回到全部地点的清单</a></p>
+    </section>
+
+    <footer class="ex-footer">
+      <nav class="ex-foot-links" aria-label="相关页面">
+        <a href="./#station-info">查这座站的厕所与档案 →</a>
+        <a href="transfer.html">规划一段换乘 →</a>
+        <a href="./#network">回到线网地图 →</a>
+      </nav>
+      <p class="ex-note" id="exit-scope"></p>
+    </footer>
+  </main>
+</body>
+</html>

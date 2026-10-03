@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f8f7">
+  <meta name="description" content="南京地铁换乘实验室：选起点和终点，看最少换乘与最少站数的走法、经过几站、在哪一站换乘，以及竹山路出站换乘提醒。">
+  <title>换乘实验室 · 南京地铁</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%23171717'/%3E%3Cpath d='M10 29V11l10 12 10-12v18' fill='none' stroke='%23fff' stroke-width='4' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="site-shell.css">
+  <link rel="stylesheet" href="explore.css">
+  <script src="site-shell.js"></script>
+  <script src="line-colors.js"></script>
+  <script defer src="network-graph.js"></script>
+  <script defer src="transfer.js"></script>
+</head>
+<body class="ex">
+  <a class="skip-link" href="#main">跳到内容</a>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="南京地铁首页"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M10 29V11l10 12 10-12v18"/></svg></span><span>南京地铁<small>NANJING METRO</small></span></a>
+    <nav aria-label="主导航"><a href="./#network" data-section="network">线网地图</a><a href="./#station-info" data-section="station-info">站点 · 厕所</a><a href="exits.html" data-section="exits">出站即达</a><a href="./#city" data-section="city">地铁里的南京</a><a href="transfer.html" data-section="transfer">换乘实验室</a><a href="quiz.html" data-section="quiz">线路人格</a><a href="records.html" data-section="records">线网之最</a><a href="terrain.html" data-section="terrain">3D · 巡航</a></nav>
+    <label class="style-picker"><span class="sr-only">切换视觉风格</span><select id="site-style" aria-label="切换视觉风格"><option value="city">城市浅绿</option><option value="paper">纸墨风格</option></select></label>
+  </header>
+
+  <main id="main" class="ex-main">
+    <header class="ex-head">
+      <h1>换乘实验室<span class="dot">。</span></h1>
+      <p class="ex-lede">选一个起点和终点，看看这张网建议你在哪一站换车、要坐几站、要换几次。</p>
+    </header>
+
+    <section class="ex-section" aria-labelledby="plan-title">
+      <h2 id="plan-title">规划一段行程</h2>
+      <p>站名支持输入联想，输入完整站名后自动出结果。默认给“换乘最少”的走法；如果“坐得更少”的走法确实不同，会一并列出。竹山路站的 1 号线与 5 号线需要出站换乘，规划到这条路径时会单独提醒。</p>
+      <div class="planner">
+        <div class="planner-fields">
+          <div class="field">
+            <label for="from-input">起点</label>
+            <input id="from-input" list="station-options" placeholder="例如 新街口" autocomplete="off" spellcheck="false">
+          </div>
+          <button class="planner-swap" id="swap" type="button" title="交换起点和终点" aria-label="交换起点和终点">⇅</button>
+          <div class="field">
+            <label for="to-input">终点</label>
+            <input id="to-input" list="station-options" placeholder="例如 禄口机场" autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+        <datalist id="station-options"></datalist>
+        <div class="planner-actions">
+          <button class="ex-btn" id="random-route" type="button">随机来一段</button>
+          <button class="ex-btn" id="clear-route" type="button">清空</button>
+        </div>
+        <p class="planner-error" id="planner-error" role="status">正在载入线网数据…</p>
+        <div class="route" id="route" hidden></div>
+      </div>
+      <p class="ex-note" id="data-scope"></p>
+    </section>
+
+    <section class="ex-section" aria-labelledby="hub-title">
+      <h2 id="hub-title">换乘站都在哪</h2>
+      <p id="hub-intro">正在统计…</p>
+      <table class="ex-table">
+        <caption>换乘站一览，按经过的线路数排列；线路数相同时按站名排序。站名可打开首页的该站资料。</caption>
+        <thead><tr><th scope="col" class="rank">#</th><th scope="col">车站</th><th scope="col">经过线路</th><th scope="col" class="num">线路数</th></tr></thead>
+        <tbody id="hub-rows"></tbody>
+      </table>
+
+      <h3 class="ex-sub">每条线路各有多少座换乘站</h3>
+      <table class="ex-table">
+        <caption>一条线路的换乘站越多，通常越容易和别的线路接上。</caption>
+        <thead><tr><th scope="col" class="rank">#</th><th scope="col">线路</th><th scope="col" class="optional">起讫站</th><th scope="col" class="num">换乘站</th></tr></thead>
+        <tbody id="line-hub-rows"></tbody>
+      </table>
+      <p class="ex-note" id="single-line-note"></p>
+    </section>
+
+    <footer class="ex-footer">
+      <nav class="ex-foot-links" aria-label="相关页面">
+        <a href="quiz.html">测一测你是哪条线 →</a>
+        <a href="records.html">线网之最 →</a>
+        <a href="./#network">回到线网地图 →</a>
+      </nav>
+      <p class="ex-note">换乘方案按公开站序与线路归属计算，未计入站内步行时间与首末班时刻。运营调整以官方公告为准。本页是独立城市指南，非南京地铁官方网站。</p>
+    </footer>
+  </main>
+</body>
+</html>

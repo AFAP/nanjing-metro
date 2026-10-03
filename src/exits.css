@@ -1,0 +1,69 @@
+/*
+ * 出站即达 — shared by the standalone page (exits.html, which also loads
+ * explore.css for the .ex-* shell) and by the station archive on the home page.
+ *
+ * The home page does not set the .ex-* custom properties, so the block under
+ * "station archive" uses literal values from stations.css instead of tokens.
+ */
+
+/* ---------- exits page ---------- */
+
+.exit-tools { margin: 0 0 var(--ex-sp-4); }
+.exit-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 540px;
+  height: 52px;
+  padding: 0 16px;
+  border: var(--ex-rule);
+  border-radius: 8px;
+  background: #fff;
+}
+.exit-search svg { width: 19px; height: 19px; flex: none; fill: none; stroke: var(--muted); stroke-width: 1.7; stroke-linecap: round; }
+.exit-search input { width: 100%; min-width: 0; height: 100%; border: 0; outline: 0; background: none; font: inherit; font-size: 15px; color: var(--ink); }
+
+.exit-filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 var(--ex-sp-5); }
+.exit-filter { padding: 7px 13px; border: var(--ex-rule); border-radius: 999px; background: none; font-size: 14px; color: var(--muted); }
+.exit-filter:hover { color: var(--ink); border-color: var(--muted); }
+.exit-filter.is-active,
+.exit-filter.is-active:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+.exit-count { margin: 0 0 var(--ex-sp-3); font-size: 14px; color: var(--muted); }
+.exit-more { margin: var(--ex-sp-3) 0 0; font-size: 14px; color: var(--muted); }
+.exit-table td:first-child { font-weight: 550; }
+.exit-station-cell { display: inline-flex; align-items: center; gap: 10px; }
+
+.exit-groups { display: grid; gap: var(--ex-sp-5); }
+.exit-group { padding-top: var(--ex-sp-4); border-top: var(--ex-rule); }
+.exit-group-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--ex-sp-3); margin: 0 0 var(--ex-sp-2); }
+.exit-gate { font-size: 19px; font-weight: 650; }
+.exit-group-meta { font-size: 13.5px; color: var(--muted); }
+
+.exit-list { list-style: none; margin: 0; padding: 0; }
+.exit-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: var(--ex-sp-3); align-items: baseline; padding: 9px 0; border-top: var(--ex-rule); }
+.exit-list li:first-child { border-top: 0; }
+.exit-list-name { font-size: 15.5px; }
+.exit-list-category { font-size: 13px; color: var(--muted); }
+.exit-list-distance { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.exit-back { margin: var(--ex-sp-5) 0 0; font-size: 15px; }
+.exit-back a { color: var(--green); }
+
+@media (max-width: 760px) {
+  .exit-search { max-width: none; }
+  .exit-list li { grid-template-columns: minmax(0, 1fr) auto; }
+  .exit-list-category { display: none; }
+  .exit-station-cell { flex-direction: column; align-items: flex-start; gap: 4px; }
+}
+
+/* ---------- station archive (home page) ---------- */
+
+.station-exits-lede { margin: 0 0 10px; font-size: 12.5px; line-height: 1.9; color: #7c877f; }
+.station-exits .exit-list li { border-top-color: #e5eae4; }
+.station-exits .exit-list-name { font-size: 14px; }
+.station-exits .exit-list-category { font-size: 12px; }
+.station-exits .exit-list-distance { font-size: 12.5px; }
+.station-exits-more { display: inline-block; margin-top: 12px; font-size: 12.5px; color: #177456; text-decoration: underline; text-underline-offset: 3px; }
+.station-exits-raw { margin-top: 14px; }
+.station-exits-raw > summary { font-size: 12.5px; color: #7c877f; cursor: pointer; }
+.station-exits-empty { margin-bottom: 12px; font-size: 12.5px; color: #7c877f; }
